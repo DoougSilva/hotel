@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: hotel
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hotel-db?currentSchema=public
+    #O usuário e senha ficara fixo para facilitar o desenvolvimento e testes da aplicação.
+    #Porem em um ambiente de produção/homologação é recomendado guardar essas informações como variáveis de ambiente.
+    #Ex. Vault.
+    username: postgres
+    password: postgres
+  jpa:
+    properties.hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
