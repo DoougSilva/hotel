@@ -33,6 +33,10 @@ public class CheckIn implements Serializable {
     private Boolean adicionalVeiculo;
 
     @NonNull
+    @Column
+    private Double valor;
+
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "hospede_id", nullable = false)
     private Hospede hospede;
