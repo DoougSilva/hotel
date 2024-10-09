@@ -51,12 +51,21 @@ public class HospedeController {
         service.delete(uuid);
     }
 
-    @GetMapping("check-in-expered")
+    @GetMapping("/check-in-expered")
     @ResponseStatus(HttpStatus.OK)
     public Page<HospedeDTO> findAllByCheckInExpered(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "10") Integer size){
         PageRequest pageRequeste = PageRequest.of(page, size);
         return service.findAllByCheckInExpered(pageRequeste);
+    }
+
+    @GetMapping("/check-in-current")
+    @ResponseStatus(HttpStatus.OK)
+    public Page<HospedeDTO> findAllWithCurrentCheckIn(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size){
+        PageRequest pageRequeste = PageRequest.of(page, size);
+        return service.findAllWithCurrentCheckIn(pageRequeste);
     }
 }

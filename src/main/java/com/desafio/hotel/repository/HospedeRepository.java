@@ -23,4 +23,7 @@ public interface HospedeRepository extends JpaRepository<Hospede, UUID> {
 
     @Query("SELECT hospede FROM Hospede hospede JOIN hospede.checkIns checkin WHERE checkin.dataSaida < CURRENT_TIMESTAMP")
     Page<Hospede> findAllByCheckInsExpired(PageRequest pageRequest);
+
+    @Query("SELECT hospede FROM Hospede hospede JOIN hospede.checkIns checkin WHERE CURRENT_TIMESTAMP BETWEEN checkin.dataEntrada AND checkin.dataSaida")
+    Page<Hospede> findAllWithCurrentCheckIn(PageRequest pageRequest);
 }

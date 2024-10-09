@@ -74,4 +74,10 @@ public class HospedeService {
         Page<Hospede> page = repository.findAllByCheckInsExpired(pageRequest);
         return page.map(hospede -> conversionService.convert(hospede, HospedeDTO.class));
     }
+
+    @Transactional(readOnly = true)
+    public Page<HospedeDTO> findAllWithCurrentCheckIn(PageRequest pageRequest) {
+        Page<Hospede> page = repository.findAllWithCurrentCheckIn(pageRequest);
+        return page.map(hospede -> conversionService.convert(hospede, HospedeDTO.class));
+    }
 }
