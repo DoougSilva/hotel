@@ -53,8 +53,7 @@ public class HospedeService {
     }
 
     private Hospede findOne(UUID uuid) {
-        Optional<Hospede> optHospede = repository.findById(uuid);
-        return optHospede.orElseThrow();
+        return repository.findById(uuid).orElseThrow();
     }
 
     private boolean existsEntity(HospedeDTO dto) {
@@ -62,5 +61,11 @@ public class HospedeService {
             return repository.existsById(dto.getId());
         }
         return Boolean.FALSE;
+    }
+
+    @Transactional(readOnly = true)
+    public Hospede findByFields(HospedeDTO hospede) {
+        return repository.findByFields(hospede.getNome(), hospede.getDocumento(), hospede.getTelefone())
+                .orElseThrow();
     }
 }

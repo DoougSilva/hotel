@@ -1,6 +1,6 @@
 package com.desafio.hotel.domain.hospede;
 
-import com.desafio.hotel.domain.checkin.CheckIn;
+import com.desafio.hotel.domain.checkin.CheckInDTO;
 import lombok.*;
 
 import java.util.Set;
@@ -23,5 +23,5 @@ public class HospedeDTO {
     @NonNull
     private String telefone;
 
-    private Set<CheckIn> checkIns;
+    private Set<CheckInDTO> checkIns;
 }

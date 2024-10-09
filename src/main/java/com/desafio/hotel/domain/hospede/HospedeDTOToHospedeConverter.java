@@ -11,12 +11,12 @@ public class HospedeDTOToHospedeConverter implements Converter<HospedeDTO, Hospe
         if (source == null) {
             return null;
         }
-        return Hospede.builder()
-                .id(source.getId())
-                .nome(source.getNome())
-                .documento(source.getDocumento())
-                .telefone(source.getTelefone())
-                .checkIns(source.getCheckIns())
-                .build();
+
+        Hospede hospede = new Hospede();
+        hospede.setId(source.getId());
+        hospede.setNome(source.getNome());
+        hospede.setDocumento(source.getDocumento());
+        hospede.setTelefone(source.getTelefone());
+        return hospede;
     }
 }

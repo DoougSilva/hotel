@@ -1,6 +1,6 @@
 package com.desafio.hotel.domain.checkin;
 
-import com.desafio.hotel.domain.hospede.Hospede;
+import com.desafio.hotel.domain.hospede.HospedeDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -20,8 +20,8 @@ public class CheckInDTO {
     @NonNull
     private LocalDateTime dataSaida;
 
-    private Boolean adicionalVeiculo;
+    private Boolean adicionalVeiculo = Boolean.FALSE;
 
     @NonNull
-    private Hospede hospede;
+    private HospedeDTO hospede;
 }

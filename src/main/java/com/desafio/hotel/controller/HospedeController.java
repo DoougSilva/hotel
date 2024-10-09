@@ -20,8 +20,8 @@ public class HospedeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EntityId create(@RequestBody HospedeDTO hospede) {
-        return EntityId.of(service.create(hospede).getId());
+    public EntityId create(@RequestBody HospedeDTO hospedeDTO) {
+        return EntityId.of(service.create(hospedeDTO).getId());
     }
 
     @GetMapping("/{id}")
@@ -42,8 +42,8 @@ public class HospedeController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public EntityId update(@RequestBody HospedeDTO hospede) {
-        return EntityId.of(service.update(hospede).getId());
+    public EntityId update(@RequestBody HospedeDTO hospedeDTO) {
+        return EntityId.of(service.update(hospedeDTO).getId());
     }
 
     @DeleteMapping("/{id}")
