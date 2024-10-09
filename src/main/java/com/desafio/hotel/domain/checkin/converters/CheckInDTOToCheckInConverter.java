@@ -1,5 +1,7 @@
-package com.desafio.hotel.domain.checkin;
+package com.desafio.hotel.domain.checkin.converters;
 
+import com.desafio.hotel.domain.checkin.CheckIn;
+import com.desafio.hotel.domain.checkin.CheckInDTO;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

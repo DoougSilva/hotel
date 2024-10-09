@@ -23,5 +23,4 @@ public class HospedeDTO {
     @NonNull
     private String telefone;
 
-    private Set<CheckInDTO> checkIns;
 }

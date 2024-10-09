@@ -68,4 +68,10 @@ public class HospedeService {
         return repository.findByFields(hospede.getNome(), hospede.getDocumento(), hospede.getTelefone())
                 .orElseThrow();
     }
+
+    @Transactional(readOnly = true)
+    public Page<HospedeDTO> findAllByCheckInExpered(PageRequest pageRequest) {
+        Page<Hospede> page = repository.findAllByCheckInsExpired(pageRequest);
+        return page.map(hospede -> conversionService.convert(hospede, HospedeDTO.class));
+    }
 }

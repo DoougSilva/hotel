@@ -1,5 +1,7 @@
-package com.desafio.hotel.domain.hospede;
+package com.desafio.hotel.domain.hospede.converters;
 
+import com.desafio.hotel.domain.hospede.Hospede;
+import com.desafio.hotel.domain.hospede.HospedeDTO;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
