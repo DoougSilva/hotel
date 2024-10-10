@@ -14,9 +14,9 @@ import java.util.UUID;
 @Repository
 public interface HospedeRepository extends JpaRepository<Hospede, UUID> {
 
-    @Query("SELECT hospede FROM Hospede hospede WHERE (:nome IS NULL OR hospede.nome = :nome) " +
-            "OR (:documento IS NULL OR hospede.documento = :documento) " +
-            "OR (:telefone) IS NULL OR hospede.telefone = :telefone")
+    @Query("SELECT hospede FROM Hospede hospede WHERE hospede.nome = :nome " +
+            "OR hospede.documento = :documento " +
+            "OR hospede.telefone = :telefone")
     Optional<Hospede> findByFields(@Param("nome") String nome,
                                    @Param("documento") String documento,
                                    @Param("telefone") String telefone);
@@ -26,4 +26,9 @@ public interface HospedeRepository extends JpaRepository<Hospede, UUID> {
 
     @Query("SELECT hospede FROM Hospede hospede JOIN hospede.checkIns checkin WHERE CURRENT_TIMESTAMP BETWEEN checkin.dataEntrada AND checkin.dataSaida")
     Page<Hospede> findAllWithCurrentCheckIn(PageRequest pageRequest);
+
+    Boolean existsByTelefone(String telefone);
+
+    Boolean existsByDocumento(String documento);
+
 }

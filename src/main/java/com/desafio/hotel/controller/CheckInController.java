@@ -3,6 +3,7 @@ package com.desafio.hotel.controller;
 import com.desafio.hotel.domain.base.EntityId;
 import com.desafio.hotel.domain.checkin.CheckInDTO;
 import com.desafio.hotel.service.CheckInService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class CheckInController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EntityId create(@RequestBody CheckInDTO checkInDTO) {
+    public EntityId create(@RequestBody @Valid CheckInDTO checkInDTO) {
         return service.create(checkInDTO);
     }
 }

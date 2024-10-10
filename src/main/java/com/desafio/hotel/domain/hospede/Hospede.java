@@ -29,6 +29,6 @@ public class Hospede implements Serializable {
     @NonNull
     private String telefone;
 
-    @OneToMany(mappedBy = "hospede", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "hospede", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<CheckIn> checkIns;
 }

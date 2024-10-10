@@ -3,6 +3,7 @@ package com.desafio.hotel.controller;
 import com.desafio.hotel.domain.base.EntityId;
 import com.desafio.hotel.domain.hospede.HospedeDTO;
 import com.desafio.hotel.service.HospedeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +21,7 @@ public class HospedeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EntityId create(@RequestBody HospedeDTO hospedeDTO) {
+    public EntityId create(@RequestBody @Valid HospedeDTO hospedeDTO) {
         return EntityId.of(service.create(hospedeDTO).getId());
     }
 
@@ -41,7 +42,7 @@ public class HospedeController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public EntityId update(@RequestBody HospedeDTO hospedeDTO) {
+    public EntityId update(@RequestBody @Valid HospedeDTO hospedeDTO) {
         return EntityId.of(service.update(hospedeDTO).getId());
     }
 

@@ -3,6 +3,7 @@ package com.desafio.hotel.service;
 import com.desafio.hotel.domain.hospede.Hospede;
 import com.desafio.hotel.domain.hospede.HospedeDTO;
 import com.desafio.hotel.repository.HospedeRepository;
+import com.desafio.hotel.specification.SpecificationValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ public class HospedeService {
 
     @Transactional
     public Hospede create(HospedeDTO dto) {
+        validate(dto);
         Hospede entity = conversionService.convert(dto, Hospede.class);
         return repository.save(entity);
     }
@@ -41,6 +43,7 @@ public class HospedeService {
         if (!existsEntity(dto)) {
             throw new RuntimeException();
         }
+        validate(dto);
         Hospede entity = conversionService.convert(dto, Hospede.class);
         return repository.save(entity);
     }
@@ -83,5 +86,12 @@ public class HospedeService {
         HospedeDTO hospedeDTO = conversionService.convert(hospede, HospedeDTO.class);
         hospedeDTO.setValores(hospede.getCheckIns());
         return hospedeDTO;
+    }
+
+    private void validate(HospedeDTO hospedeDTO) {
+        SpecificationValidator.of()
+                .add(HospedeServiceSpecification.validateDocumento(repository))
+                .add(HospedeServiceSpecification.validateTelefone(repository))
+                .validateWithException(hospedeDTO);
     }
 }
