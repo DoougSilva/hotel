@@ -11,8 +11,12 @@ public class DateUtil {
     public int calculateWeekend(LocalDateTime dataInicio, LocalDateTime dataFim) {
         int count = 0;
 
-        while (!dataInicio.isAfter(dataFim) && !dataInicio.equals(dataFim)) {
-            if (dataInicio.getDayOfWeek().equals(DayOfWeek.SATURDAY) || dataInicio.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+        if (dataInicio.toLocalDate().isEqual(dataFim.toLocalDate()) && isWeekend(dataInicio.getDayOfWeek())) {
+            return 1;
+        }
+
+        while (dataInicio.toLocalDate().isBefore(dataFim.toLocalDate())) {
+            if (isWeekend(dataInicio.getDayOfWeek())) {
                 count++;
             }
             dataInicio = dataInicio.plusDays(1);
@@ -23,13 +27,16 @@ public class DateUtil {
     public int calculateBusinessDays(LocalDateTime dataInicio, LocalDateTime dataFim) {
         int count = 0;
 
-        while (!dataInicio.isAfter(dataFim) && !dataInicio.equals(dataFim)) {
-            if (!dataInicio.getDayOfWeek().equals(DayOfWeek.SATURDAY) && !dataInicio.getDayOfWeek().equals(DayOfWeek.SUNDAY) ) {
+        if (dataInicio.toLocalDate().isEqual(dataFim.toLocalDate()) && !isWeekend(dataInicio.getDayOfWeek())) {
+            return 1;
+        }
+
+        while (dataInicio.toLocalDate().isBefore(dataFim.toLocalDate())) {
+            if (!isWeekend(dataInicio.getDayOfWeek())) {
                 count++;
             }
             dataInicio = dataInicio.plusDays(1);
         }
-
         return count;
     }
 

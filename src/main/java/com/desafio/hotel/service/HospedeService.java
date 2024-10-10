@@ -10,8 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,13 +27,13 @@ public class HospedeService {
 
     @Transactional(readOnly = true)
     public HospedeDTO findById(UUID uuid) {
-        return conversionService.convert(findOne(uuid), HospedeDTO.class);
+        return mapToHospedeDTO(findOne(uuid));
     }
 
     @Transactional(readOnly = true)
     public Page<HospedeDTO> findAll(PageRequest pageRequest) {
         Page<Hospede> page = repository.findAll(pageRequest);
-        return page.map(hospede -> conversionService.convert(hospede, HospedeDTO.class));
+        return page.map(hospede -> mapToHospedeDTO(hospede));
     }
 
     @Transactional
@@ -51,6 +50,24 @@ public class HospedeService {
         repository.deleteById(uuid);
     }
 
+    @Transactional(readOnly = true)
+    public Hospede findByFields(HospedeDTO hospede) {
+        return repository.findByFields(hospede.getNome(), hospede.getDocumento(), hospede.getTelefone())
+                .orElseThrow();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<HospedeDTO> findAllByCheckInExpered(PageRequest pageRequest) {
+        Page<Hospede> page = repository.findAllByCheckInsExpired(pageRequest);
+        return page.map(hospede -> mapToHospedeDTO(hospede));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<HospedeDTO> findAllWithCurrentCheckIn(PageRequest pageRequest) {
+        Page<Hospede> page = repository.findAllWithCurrentCheckIn(pageRequest);
+        return page.map(hospede -> mapToHospedeDTO(hospede));
+    }
+
     private Hospede findOne(UUID uuid) {
         return repository.findById(uuid).orElseThrow();
     }
@@ -62,21 +79,9 @@ public class HospedeService {
         return Boolean.FALSE;
     }
 
-    @Transactional(readOnly = true)
-    public Hospede findByFields(HospedeDTO hospede) {
-        return repository.findByFields(hospede.getNome(), hospede.getDocumento(), hospede.getTelefone())
-                .orElseThrow();
-    }
-
-    @Transactional(readOnly = true)
-    public Page<HospedeDTO> findAllByCheckInExpered(PageRequest pageRequest) {
-        Page<Hospede> page = repository.findAllByCheckInsExpired(pageRequest);
-        return page.map(hospede -> conversionService.convert(hospede, HospedeDTO.class));
-    }
-
-    @Transactional(readOnly = true)
-    public Page<HospedeDTO> findAllWithCurrentCheckIn(PageRequest pageRequest) {
-        Page<Hospede> page = repository.findAllWithCurrentCheckIn(pageRequest);
-        return page.map(hospede -> conversionService.convert(hospede, HospedeDTO.class));
+    private HospedeDTO mapToHospedeDTO(Hospede hospede) {
+        HospedeDTO hospedeDTO = conversionService.convert(hospede, HospedeDTO.class);
+        hospedeDTO.setValores(hospede.getCheckIns());
+        return hospedeDTO;
     }
 }

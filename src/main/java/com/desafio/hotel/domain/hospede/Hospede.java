@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,21 +18,17 @@ public class Hospede implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
     private UUID id;
 
     @NonNull
-    @Column
     private String nome;
 
     @NonNull
-    @Column
     private String documento;
 
     @NonNull
-    @Column
     private String telefone;
 
-    @OneToMany(mappedBy = "hospede")
-    private Set<CheckIn> checkIns;
+    @OneToMany(mappedBy = "hospede", fetch = FetchType.EAGER)
+    private List<CheckIn> checkIns;
 }

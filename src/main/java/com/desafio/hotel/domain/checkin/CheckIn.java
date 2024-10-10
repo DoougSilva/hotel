@@ -3,8 +3,9 @@ package com.desafio.hotel.domain.checkin;
 import com.desafio.hotel.domain.hospede.Hospede;
 import jakarta.persistence.*;
 import lombok.*;
-
+import org.hibernate.annotations.CreationTimestamp;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,26 +19,23 @@ public class CheckIn implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
     private UUID id;
 
     @NonNull
-    @Column
     private LocalDateTime dataEntrada;
 
     @NonNull
-    @Column
     private LocalDateTime dataSaida;
 
-    @Column
     private Boolean adicionalVeiculo;
 
     @NonNull
-    @Column
     private Double valor;
 
-    @NonNull
     @ManyToOne
     @JoinColumn(name = "hospede_id", nullable = false)
     private Hospede hospede;
+
+    @CreationTimestamp
+    private Instant createdDate;
 }

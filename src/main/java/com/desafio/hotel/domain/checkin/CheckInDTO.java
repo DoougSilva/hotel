@@ -22,7 +22,7 @@ public class CheckInDTO {
 
     private Boolean adicionalVeiculo = Boolean.FALSE;
 
-    private Boolean valor;
+    private Double valor;
 
     @NonNull
     private HospedeDTO hospede;
