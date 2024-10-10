@@ -2,6 +2,7 @@ package com.desafio.hotel.domain.hospede;
 
 import com.desafio.hotel.domain.checkin.CheckIn;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
@@ -20,13 +21,13 @@ public class Hospede implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @NonNull
+    @NotNull
     private String nome;
 
-    @NonNull
+    @NotNull
     private String documento;
 
-    @NonNull
+    @NotNull
     private String telefone;
 
     @OneToMany(mappedBy = "hospede", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

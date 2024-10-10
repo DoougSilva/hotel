@@ -39,18 +39,4 @@ public abstract class GenericSpecification<T> implements Specification<T> {
             return true;
         }
     }
-
-    public ValidateException isSatisfiedByWithoutExceptionIfNecessary(T candidate, Boolean shouldBeWithoutException) throws ValidateException {
-        boolean result = this.isSatisfiedBy(candidate);
-        if (!result) {
-            ValidateException newValidateEventExeption = new ValidateException(this.message);
-            if (shouldBeWithoutException){
-                return newValidateEventExeption;
-            } else {
-                throw newValidateEventExeption;
-            }
-        } else {
-            return null;
-        }
-    }
 }

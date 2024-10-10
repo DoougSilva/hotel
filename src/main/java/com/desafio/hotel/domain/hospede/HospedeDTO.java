@@ -1,6 +1,7 @@
 package com.desafio.hotel.domain.hospede;
 
 import com.desafio.hotel.domain.checkin.CheckIn;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.util.CollectionUtils;
 
@@ -17,13 +18,13 @@ public class HospedeDTO {
 
     private UUID id;
 
-    @NonNull
+    @NotBlank
     private String nome;
 
-    @NonNull
+    @NotBlank
     private String documento;
 
-    @NonNull
+    @NotBlank
     private String telefone;
 
     private Double valorUltimaHospedagem;

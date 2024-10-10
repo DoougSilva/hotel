@@ -2,6 +2,7 @@ package com.desafio.hotel.service;
 
 import com.desafio.hotel.domain.hospede.Hospede;
 import com.desafio.hotel.domain.hospede.HospedeDTO;
+import com.desafio.hotel.exceptions.HospedeNotFoundException;
 import com.desafio.hotel.repository.HospedeRepository;
 import com.desafio.hotel.specification.SpecificationValidator;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class HospedeService {
     @Transactional
     public Hospede update(HospedeDTO dto) {
         if (!existsEntity(dto)) {
-            throw new RuntimeException();
+            throw new HospedeNotFoundException();
         }
         validate(dto);
         Hospede entity = conversionService.convert(dto, Hospede.class);
@@ -56,7 +57,7 @@ public class HospedeService {
     @Transactional(readOnly = true)
     public Hospede findByFields(HospedeDTO hospede) {
         return repository.findByFields(hospede.getNome(), hospede.getDocumento(), hospede.getTelefone())
-                .orElseThrow();
+                .orElseThrow(() -> new HospedeNotFoundException());
     }
 
     @Transactional(readOnly = true)
@@ -72,7 +73,7 @@ public class HospedeService {
     }
 
     private Hospede findOne(UUID uuid) {
-        return repository.findById(uuid).orElseThrow();
+        return repository.findById(uuid).orElseThrow(() -> new HospedeNotFoundException());
     }
 
     private boolean existsEntity(HospedeDTO dto) {

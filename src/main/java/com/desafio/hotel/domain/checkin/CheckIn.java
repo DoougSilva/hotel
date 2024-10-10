@@ -2,6 +2,7 @@ package com.desafio.hotel.domain.checkin;
 
 import com.desafio.hotel.domain.hospede.Hospede;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.io.Serializable;
@@ -21,15 +22,15 @@ public class CheckIn implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @NonNull
+    @NotNull
     private LocalDateTime dataEntrada;
 
-    @NonNull
+    @NotNull
     private LocalDateTime dataSaida;
 
     private Boolean adicionalVeiculo;
 
-    @NonNull
+    @NotNull
     private Double valor;
 
     @ManyToOne

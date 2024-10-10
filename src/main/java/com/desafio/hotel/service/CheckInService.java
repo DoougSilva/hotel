@@ -1,6 +1,7 @@
 package com.desafio.hotel.service;
 
 import com.desafio.hotel.domain.hospede.HospedeDTO;
+import com.desafio.hotel.exceptions.HospedeDuplicateResultException;
 import com.desafio.hotel.specification.SpecificationValidator;
 import com.desafio.hotel.utils.DateUtil;
 import com.desafio.hotel.domain.base.EntityId;
@@ -48,7 +49,7 @@ public class CheckInService {
             return hospedeService.findByFields(dto);
         } catch (IncorrectResultSizeDataAccessException e) {
             log.error(e.getMessage());
-            throw new RuntimeException();
+            throw new HospedeDuplicateResultException();
         }
     }
 

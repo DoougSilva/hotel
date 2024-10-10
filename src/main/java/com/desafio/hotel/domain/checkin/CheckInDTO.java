@@ -1,6 +1,7 @@
 package com.desafio.hotel.domain.checkin;
 
 import com.desafio.hotel.domain.hospede.HospedeDTO;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,16 +15,16 @@ public class CheckInDTO {
 
     private UUID id;
 
-    @NonNull
+    @NotNull
     private LocalDateTime dataEntrada;
 
-    @NonNull
+    @NotNull
     private LocalDateTime dataSaida;
 
     private Boolean adicionalVeiculo = Boolean.FALSE;
 
     private Double valor;
 
-    @NonNull
+    @NotNull
     private HospedeDTO hospede;
 }

@@ -24,7 +24,7 @@ public class HospedeServiceSpecification {
         return new GenericSpecification<HospedeDTO>() {
             @Override
             public boolean isSatisfiedBy(HospedeDTO hospedeDTO) {
-                setMessage("Docuemnto já cadastrado!");
+                setMessage("Documento já cadastrado!");
 
                 return !repository.existsByDocumento(hospedeDTO.getDocumento());
             }
