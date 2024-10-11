@@ -1,11 +1,18 @@
 spring:
   application:
     name: hotel
+  profiles:
+    active: dev
+
+server:
+  port: 8080
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
   datasource:
     url: jdbc:postgresql://localhost:5432/hotel-db?currentSchema=public&TimeZone=America/Sao_Paulo
-    #O usuário e senha ficara fixo para facilitar o desenvolvimento e testes da aplicação.
-    #Porem em um ambiente de produção/homologação é recomendado guardar essas informações como variáveis de ambiente.
-    #Ex. Vault.
     username: postgres
     password: postgres
   jpa:
@@ -14,6 +21,19 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
-server:
-  port: 8080
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:tc:postgresql:15.2:///?stringtype=unspecified
+    username: user
+    password: password
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update

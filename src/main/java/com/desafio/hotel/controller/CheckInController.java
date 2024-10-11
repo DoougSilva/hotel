@@ -18,6 +18,6 @@ public class CheckInController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EntityId create(@RequestBody @Valid CheckInDTO checkInDTO) {
-        return service.create(checkInDTO);
+        return EntityId.of(service.create(checkInDTO).getId());
     }
 }

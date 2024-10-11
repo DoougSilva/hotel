@@ -23,7 +23,7 @@ public class HospedeService {
 
     @Transactional
     public Hospede create(HospedeDTO dto) {
-        validate(dto);
+        validateCreate(dto);
         Hospede entity = conversionService.convert(dto, Hospede.class);
         return repository.save(entity);
     }
@@ -41,16 +41,17 @@ public class HospedeService {
 
     @Transactional
     public Hospede update(HospedeDTO dto) {
-        if (!existsEntity(dto)) {
-            throw new HospedeNotFoundException();
-        }
-        validate(dto);
+        Hospede oldEntity = findOne(dto.getId());
+        validateUpdate(dto, oldEntity);
         Hospede entity = conversionService.convert(dto, Hospede.class);
         return repository.save(entity);
     }
 
     @Transactional
     public void delete(UUID uuid) {
+        if (!repository.existsById(uuid)) {
+            throw new HospedeNotFoundException();
+        }
         repository.deleteById(uuid);
     }
 
@@ -76,23 +77,23 @@ public class HospedeService {
         return repository.findById(uuid).orElseThrow(() -> new HospedeNotFoundException());
     }
 
-    private boolean existsEntity(HospedeDTO dto) {
-        if (Objects.nonNull(dto.getId())) {
-            return repository.existsById(dto.getId());
-        }
-        return Boolean.FALSE;
-    }
-
     private HospedeDTO mapToHospedeDTO(Hospede hospede) {
         HospedeDTO hospedeDTO = conversionService.convert(hospede, HospedeDTO.class);
         hospedeDTO.setValores(hospede.getCheckIns());
         return hospedeDTO;
     }
 
-    private void validate(HospedeDTO hospedeDTO) {
+    private void validateCreate(HospedeDTO hospedeDTO) {
         SpecificationValidator.of()
                 .add(HospedeServiceSpecification.validateDocumento(repository))
                 .add(HospedeServiceSpecification.validateTelefone(repository))
+                .validateWithException(hospedeDTO);
+    }
+
+    private void validateUpdate(HospedeDTO hospedeDTO, Hospede hospede) {
+        SpecificationValidator.of()
+                .add(HospedeServiceSpecification.validateDocumentoUpdate(repository, hospede))
+                .add(HospedeServiceSpecification.validateTelefoneUpdate(repository, hospede))
                 .validateWithException(hospedeDTO);
     }
 }
