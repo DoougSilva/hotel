@@ -26,6 +26,7 @@ public class CheckInService {
 
     @Transactional
     public CheckIn create(CheckInDTO dto) {
+        log.info("Create CheckIn {}", dto);
         validate(dto);
         Hospede hospede = getHospede(dto.getHospede());
         CheckIn entity = conversionService.convert(dto, CheckIn.class);

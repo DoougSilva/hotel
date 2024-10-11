@@ -6,6 +6,7 @@ import com.desafio.hotel.exceptions.HospedeNotFoundException;
 import com.desafio.hotel.repository.HospedeRepository;
 import com.desafio.hotel.specification.SpecificationValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class HospedeService {
 
     private final HospedeRepository repository;
@@ -23,6 +25,7 @@ public class HospedeService {
 
     @Transactional
     public Hospede create(HospedeDTO dto) {
+        log.info("Creating hospede {}", dto);
         validateCreate(dto);
         Hospede entity = conversionService.convert(dto, Hospede.class);
         return repository.save(entity);
@@ -30,17 +33,20 @@ public class HospedeService {
 
     @Transactional(readOnly = true)
     public HospedeDTO findById(UUID uuid) {
+        log.info("Finding hospede {}", uuid);
         return mapToHospedeDTO(findOne(uuid));
     }
 
     @Transactional(readOnly = true)
     public Page<HospedeDTO> findAll(PageRequest pageRequest) {
+        log.info("Finding all hospedes");
         Page<Hospede> page = repository.findAll(pageRequest);
         return page.map(hospede -> mapToHospedeDTO(hospede));
     }
 
     @Transactional
     public Hospede update(HospedeDTO dto) {
+        log.info("Updating hospede {}", dto);
         Hospede oldEntity = findOne(dto.getId());
         validateUpdate(dto, oldEntity);
         Hospede entity = conversionService.convert(dto, Hospede.class);
@@ -49,7 +55,9 @@ public class HospedeService {
 
     @Transactional
     public void delete(UUID uuid) {
+        log.info("Deleting hospede {}", uuid);
         if (!repository.existsById(uuid)) {
+            log.error("Hospede {} not found", uuid);
             throw new HospedeNotFoundException();
         }
         repository.deleteById(uuid);
@@ -57,18 +65,21 @@ public class HospedeService {
 
     @Transactional(readOnly = true)
     public Hospede findByFields(HospedeDTO hospede) {
+        log.info("Finding by fields hospede {}", hospede);
         return repository.findByFields(hospede.getNome(), hospede.getDocumento(), hospede.getTelefone())
                 .orElseThrow(() -> new HospedeNotFoundException());
     }
 
     @Transactional(readOnly = true)
     public Page<HospedeDTO> findAllByCheckInExpered(PageRequest pageRequest) {
+        log.info("Finding all hospedes by check-in-experied");
         Page<Hospede> page = repository.findAllByCheckInsExpired(pageRequest);
         return page.map(hospede -> mapToHospedeDTO(hospede));
     }
 
     @Transactional(readOnly = true)
     public Page<HospedeDTO> findAllWithCurrentCheckIn(PageRequest pageRequest) {
+        log.info("Finding all hospedes with current check-in");
         Page<Hospede> page = repository.findAllWithCurrentCheckIn(pageRequest);
         return page.map(hospede -> mapToHospedeDTO(hospede));
     }
